@@ -27,8 +27,8 @@ import streamlit as st
 
 def detect_language(text):
     # Simple keywords for each language
-    english_keywords = ['the', 'is', 'it', 'hello', 'how', 'are']
-    spanish_keywords = ['el', 'es', 'hola', 'como', 'estoy']
+    english_keywords = ['hi', 'goodmorning', 'night', 'hello', 'yes', 'no']
+    spanish_keywords = ['si', 'amigas', 'hola', 'como', 'estoy']
     french_keywords = ['le', 'est', 'bonjour', 'comment', 'je']
 
     # Convert the input text to lowercase for basic comparison
