@@ -24,7 +24,30 @@
 # if __name__ == "__main__":
 #     run()
 import streamlit as st
-from langdetect import detect
+
+def detect_language(text):
+    # Simple keywords for each language
+    english_keywords = ['the', 'is', 'it', 'hello', 'how', 'are']
+    spanish_keywords = ['el', 'es', 'hola', 'como', 'estoy']
+    french_keywords = ['le', 'est', 'bonjour', 'comment', 'je']
+
+    # Convert the input text to lowercase for basic comparison
+    text = text.lower()
+
+    # Count the occurrence of keywords for each language
+    english_count = sum(word in text for word in english_keywords)
+    spanish_count = sum(word in text for word in spanish_keywords)
+    french_count = sum(word in text for word in french_keywords)
+
+    # Determine the language based on the highest count
+    if english_count > spanish_count and english_count > french_count:
+        return "English 🇬🇧"
+    elif spanish_count > english_count and spanish_count > french_count:
+        return "Spanish 🇪🇸"
+    elif french_count > english_count and french_count > spanish_count:
+        return "French 🇫🇷"
+    else:
+        return "Unable to determine language"
 
 def run():
     st.title("Language Detection")
@@ -36,24 +59,12 @@ def run():
     detected_language = ""
     
     if st.button("Detect"):
-        try:
-            # Detect the language of the input text
-            detected_language_code = detect(userinput)
-            
-            # Map the detected language code to its full name
-            if detected_language_code == 'en':
-                detected_language = "English 🇬🇧"
-            elif detected_language_code == 'es':
-                detected_language = "Spanish 🇪🇸"
-            elif detected_language_code == 'fr':
-                detected_language = "French 🇫🇷"
-            else:
-                detected_language = f"Detected language code: {detected_language_code}"
-            
+        if userinput:
+            detected_language = detect_language(userinput)
             language_message = f'The detected language of "{userinput}" is {detected_language}.'
             st.success(language_message)
-        except Exception as e:
-            st.error(f"Error detecting language: {e}")
+        else:
+            st.error("Please enter some text to detect the language.")
 
 if __name__ == "__main__":
     run()
